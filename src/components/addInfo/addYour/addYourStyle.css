@@ -1,0 +1,38 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.addwork_h1_a1{
+    text-align: center;
+    color: white;
+    font-family: 'Times New Roman', Times, serif;
+}
+.addworkplace_input_a1{
+    margin: 0 auto ;
+    width: 100% !important;
+}
+.container-inner-div_a2{
+    margin-top: 100px;
+}
+.addworkflow-partn_a3{
+    background: #9a9a9a;
+    min-height: 426px;
+    padding-top: 200px;
+}
+.addworkplace_submit{
+   margin-right: 10px !important;
+}
+.about-yourself{
+    width: 100%;
+    min-height:100vh ;
+    padding: 0 !important;
+}
+.about-yourself #transition-modal-title{
+text-align: center;
+}
+.about-yourself .main-legend{
+    margin: 10px 0 0 0 ;
+}
+.about-yourself .legend{
+margin: 20px 0 3px 0 !important;
+}

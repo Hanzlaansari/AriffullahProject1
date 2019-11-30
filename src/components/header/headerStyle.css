@@ -1,0 +1,7 @@
+.header_bar_a1{
+    flex-grow: inherit !important;
+    margin: 0 auto !important;
+}
+.header_bar_a2{
+    margin-right: 10px;
+}
