@@ -1,32 +1,42 @@
-import React from 'react';
-// import componenets
-import AboutHeaderBar from './components/header/header'
-import DisplayAboutFun from './components/displayAbout/displayabout'
-import AddWorkPlace from './components/addInfo/addWorkplace/addWorkPlace'
-import AddSchool from './components/addInfo/addSchool/addSchool'
-import AddCollege from './components/addInfo/addCollege/addCollege'
-import AddYour from './components/addInfo/addYour/addYour'
-import store from './store/store';
-import IntegrationDownshift from './components/addInfo/addYour/stateInfo/stateInfo'
-import {Provider} from 'react-redux';
-
-class App extends React.Component {
-  render(){
-    return (
-     <Provider store={store}>
-     
-      <div className="App">
-    {/* <AboutHeaderBar/>
-    <DisplayAboutFun/> */}
-     {/* <AddWorkPlace/> */}
-     {/* <AddSchool/> */}
-     {/* <AddCollege/> */}
-     <AddYour/>
-     {/* <IntegrationDownshift/> */}
-      </div>
-      </Provider>
-    );
+import React , {Component} from 'react';
+import "./App.css"
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+class App extends Component{
+  constructor(props) {
+    super(props);
   }
-}
 
+  printDocument() {
+    const input = document.getElementById('divToPrint');
+    html2canvas(input)
+      .then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF();
+        pdf.addImage(imgData, 'JPEG', 0, 0);
+        pdf.save("download.pdf");
+      })
+    ;
+  }
+    render(){
+        return(
+          <div>
+          <div className="mb5">
+            
+          </div>
+          <div id="divToPrint" className="mt4" style={{  backgroundColor: '#f5f5f5',
+            width: '210mm',
+            minHeight: '297mm',
+            marginLeft: 'auto',
+            marginRight: 'auto'}}>
+           <form>
+             <label>name</label><br/>
+             <input type="text" placeholder="please enter your name"/>
+             <button onClick={this.printDocument}>Submit</button>
+           </form>
+          </div>
+        </div>
+        )
+    }
+}
 export default App;
