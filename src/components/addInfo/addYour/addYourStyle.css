@@ -22,10 +22,15 @@
 .addworkplace_submit{
    margin-right: 10px !important;
 }
+.custom-modal{
+    padding: 20px 0;
+    border-radius: 10px;
+}
 .about-yourself{
-    width: 100%;
-    min-height:100vh ;
-    padding: 0 !important;
+    width: 320px;
+    box-sizing: border-box;
+    background: white !important;
+    padding:10px 10px;
 }
 .about-yourself #transition-modal-title{
 text-align: center;
@@ -35,4 +40,11 @@ text-align: center;
 }
 .about-yourself .legend{
 margin: 20px 0 3px 0 !important;
+}
+.about-yourself .about-modal-main{
+margin: 0 auto;
+padding: 10px;
+}
+.input-control{
+margin: 0 0 10px 0 !important;  
 }

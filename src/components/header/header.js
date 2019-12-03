@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 // import material
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -12,8 +12,8 @@ import Menu from '@material-ui/core/Menu';
 import Tooltip from '@material-ui/core/Tooltip';
 import PublicIcon from '@material-ui/icons/Public';
 import { connect } from "react-redux";
-
 import './headerStyle.css';
+import { valueToNode } from '@babel/types';
 
 
 const useStyles = makeStyles(theme => ({
@@ -31,6 +31,8 @@ let AboutHeaderBar = (props) => {
   const classes = useStyles();
   const [auth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [privacy,setPrivacy]=useState("Public")
+  // const [counter, setCounter] = useState(0);
   const open = Boolean(anchorEl);
 
 
@@ -39,12 +41,20 @@ let AboutHeaderBar = (props) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleClose = (privacy) => {
     setAnchorEl(null);
+    setPrivacy(privacy)
   };
+    var counter=0;
+    for(var i=0; i<props.about.length; i++){  
+      if(props.about[i].data) 
+      {
+        counter++
+      }
+    }
+  
   return (
-    <div>
-
+    <div className="about-header">
       <AppBar position="static">
         <Toolbar>
           <Tooltip title="Manage" aria-label="manage">
@@ -54,7 +64,9 @@ let AboutHeaderBar = (props) => {
           </Tooltip>
           <Typography variant="h6" className="header_bar_a1">
             <i className="fas fa-user-friends header_bar_a2"></i>
-            About   {props.allFriends.length}
+            About {" "+counter}
+            
+             
           </Typography>
 
           {auth && (
@@ -86,9 +98,9 @@ let AboutHeaderBar = (props) => {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Public</MenuItem>
-                <MenuItem onClick={handleClose}>Friends</MenuItem>
-                <MenuItem onClick={handleClose}>Only me</MenuItem>
+                <MenuItem onClick={()=>{handleClose("Public")}}>Public</MenuItem>
+                <MenuItem onClick={()=>{handleClose("Friends")}}>Friends</MenuItem>
+                <MenuItem onClick={()=>{handleClose("Only me")}}>Only me</MenuItem>
               </Menu>
             </div>
           )}
@@ -98,6 +110,6 @@ let AboutHeaderBar = (props) => {
   )
 }
 const mapSTP = (store) => {
-  return { allFriends: store.friendsReducer }
+  return { about: store.aboutInfo}
 }
 export default connect(mapSTP)(AboutHeaderBar);

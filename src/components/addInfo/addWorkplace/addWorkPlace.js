@@ -8,6 +8,8 @@ import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import './WorkPlaceStyle.css'
 import FormHelperText from '@material-ui/core/FormHelperText';
+import {workplace} from '../../actions/action'
+import {connect} from "react-redux"
 const useStyles = makeStyles(theme => ({
     modal: {
         display: 'flex',
@@ -33,25 +35,20 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default function AddWorkPlace() {
+function AddWorkPlace(props) {
     const classes = useStyles();
     const [name, setName] = React.useState("");
-    const [collapse, setCollapse] = useState(false);
     const [error, setError] = useState(false);
-    const openModal = () => {
-        setCollapse(true)
-      }
-      const closeModal = () => {
-        setCollapse(false)
-        setName("")
-setError(false);
-      }
+//       const closeModal = () => {
+//         setCollapse(false)
+//         setName("")
+// setError(false);
+//       }
       let save = () => {
-    let value=name;
-        if (value) {
-// after dispatch
-
-          closeModal();
+        if (name) {
+            props.dispatch(workplace(name));
+            setName("");
+            props.close();
         }
         else
           setError(true);
@@ -68,22 +65,19 @@ setError(false);
     return (
 
         <div>
-            <button type="button" onClick={openModal}>
-                react-transition-group
-      </button>
+            
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
                 className={classes.modal}
-                open={collapse}
-                onClose={closeModal}
+                open={props.openState}
                 closeAfterTransition
                 BackdropComponent={Backdrop}
                 BackdropProps={{
                     timeout: 500,
                 }}
             >
-                <Fade in={collapse}>
+                <Fade in={props.openState}>
                     <div className={classes.paper}>
                         <h2 id="transition-modal-title">Add Your WorkPlace</h2>
                         <FormControl className={classes.formControl}>
@@ -92,13 +86,13 @@ setError(false);
                             {error ?
                             <FormHelperText style={{color:'red'}} id="component-helper-text">Please Enter the workplace</FormHelperText>
                             :""
-            }
+                            }
                             </FormControl>
                         <div>
                         <Button onClick={save} className="addworkplace_submit" variant="contained" color="primary">
                            Add 
                          </Button>  
-                         <Button onClick={closeModal} variant="contained">Cancel</Button>
+                         <Button onClick={()=>{props.close(); setError(false)}} variant="contained">Cancel</Button>
                         </div>
                     </div>
                 </Fade>
@@ -110,3 +104,8 @@ setError(false);
 
     )
 }
+
+const mapStateToProps=(store)=>{
+    return {store:store}
+}
+export default connect(mapStateToProps)(AddWorkPlace)

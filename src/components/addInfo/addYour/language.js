@@ -145,13 +145,13 @@ export default function SelectLanguage(props) {
       setInputValue('');
       setSelectedItem(newSelectedItem);
     };
-  
+    props.setLanguages(selectedItem);
     const handleDelete = item => () => {
       const newSelectedItem = [...selectedItem];
       newSelectedItem.splice(newSelectedItem.indexOf(item), 1);
       setSelectedItem(newSelectedItem);
     };
-  
+    
     return (
       <Downshift
         id="downshift-multiple"
