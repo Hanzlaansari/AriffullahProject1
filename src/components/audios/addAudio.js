@@ -6,12 +6,14 @@ import Fade from "@material-ui/core/Fade";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
-import "./addYourStyle.css";
+// import "./addYourStyle.css";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Grid from "@material-ui/core/Grid";
-import Country from "./stateInfo/stateInfo";
-import {addressAction} from '../../actions/action';
+// import {addAudio} from '../../actions/action';
+import { addAudio } from '../actions/action'
+
 import {connect } from 'react-redux'
+import { set } from "date-fns";
 
 // import SelectLanguage from "./language";
 const useStyles = makeStyles(theme => ({
@@ -43,43 +45,52 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-function AddressInfo(props) {
-	const [country, setCountry] = React.useState("");
-	const [division, setDivision] = React.useState("");
-	const [city, setCity] = React.useState("");
-	const [address, setAddress] = React.useState("");
+function AddAudio(props) {
+	const [title, setTitle] = React.useState("");
+	const [audiourl, setAudioUrl] = React.useState("");
+
 	const classes = useStyles();
 	const [error, setError] = useState(false);
 	
+
+
+	let changeaudioHandler = () => {
+
+		var file = document.querySelector('#input-audio').files[0];
+		var reader = new FileReader();
+		console.log(file)
+		reader.addEventListener("load", function () {
+			let data = reader.result
+			setAudioUrl(data)
+			console.log(audiourl);
+			
+		}, false);
+
+		if (file) {
+			reader.readAsDataURL(file);
+		}
+
+
+	}
 	let save = () => {
 		
-		if (country && division && city && address ) {
-			const object={country, division, city, address}
-			props.dispatch(addressAction(object));
-			setCountry("");
-			setDivision("");
-			setCity("")
-			setAddress("");
+		if ( title && audiourl ) {
+			props.dispatch(addAudio({ audiourl, id: Math.random().toString(), title }));
+			setTitle("")
+			setAudioUrl("");
 			props.close();
-		} else setError(true);
+		}
+		 else setError(true);
 	};
 	let closeError = () => {
 		setError(false);
 	};
 
-	const handleCity = event => {
-		setCity(event.target.value);
+	const handleTitle = event => {
+		setTitle(event.target.value);
 		closeError();
 	};
-	const handleDivision = event => {
-		setDivision(event.target.value);
-		closeError();
-	};
-	const handleAddress = event => {
-		setAddress(event.target.value);
-		closeError();
-	};
-
+	
 	return (
 		
 		<div className="about-yourself-main">
@@ -101,45 +112,39 @@ function AddressInfo(props) {
 						<div className={classes.root1}>
 							<Grid container spacing={0}>
 								<Grid item xs={12} md={12} lg={12} xl={12} className="about-modal-main">
-								<Country setCountry={setCountry} />
+									
 									<FormControl className="input-control" fullWidth>
-										<TextField
-											type="text"
-											onChange={handleDivision}
-											id="standard-basic"
-											placeholder="Division"
-											label="Division"
-										/>
-											</FormControl>
-									<FormControl className="input-control" fullWidth>
-										<TextField
-											type="text"
-											onChange={handleCity}
-											id="standard-basic"
-											placeholder="City"
-											label="City"
+										<input
+											className="input-audio"
+											type="file"
+											accept="audio/*"
+											onChange={changeaudioHandler}
+											id="input-audio"
 										/>
 									</FormControl>
 									<FormControl className="input-control" fullWidth>
 										<TextField
 											type="text"
-											onChange={handleAddress}
+											onChange={handleTitle}
 											id="standard-basic"
-											placeholder="Address"
-											label="Address"
+											defaultValue={
+												props.about[8].data? props.about[8].value:""
+											}
+											placeholder="audio title"
+											label="audio title"
 										/>
+									</FormControl>
 										{error ? (
 											<FormHelperText
 												style={{ color: "red" }}
 												id="component-helper-text"
 											>
-												Please fill all fields then save.
+												Please fill the field first
                         </FormHelperText>
 										) : (
 												""
 											)}
-									</FormControl>
-
+								
 									<Button
 										onClick={save}
 										className="addworkplace_submit"
@@ -150,7 +155,7 @@ function AddressInfo(props) {
                     </Button>
 									<Button onClick={()=>{props.close(); closeError();}} variant="contained">
 										Cancel
-                    </Button>
+                  </Button>
 								</Grid>
 							</Grid>
 
@@ -162,6 +167,6 @@ function AddressInfo(props) {
 	);
 }
 const mapStateToProps=(store)=>{
-	return {about:store}
+	return {about:store.aboutInfo}
 }
-export default connect(mapStateToProps)(AddressInfo);
+export default connect(mapStateToProps)(AddAudio);

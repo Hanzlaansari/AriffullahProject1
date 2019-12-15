@@ -12,7 +12,7 @@ import Menu from '@material-ui/core/Menu';
 import Tooltip from '@material-ui/core/Tooltip';
 import PublicIcon from '@material-ui/icons/Public';
 import { connect } from "react-redux";
-import './headerStyle.css';
+import './videoStyle.css';
 
 
 const useStyles = makeStyles(theme => ({
@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
 }));
-let AboutHeaderBar = (props) => {
+let VideoHeader = (props) => {
   const classes = useStyles();
   const [auth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -45,15 +45,12 @@ let AboutHeaderBar = (props) => {
     setPrivacy(privacy)
   };
     var counter=0;
-    for(var i=0; i<props.about.length; i++){  
-      if(props.about[i].data) 
-      {
-        counter++
-      }
+    for(var i=0; i<props.video.length; i++){  
+     counter++;
     }
   
   return (
-    <div className="about-header">
+    <div className="video-header">
       <AppBar position="static">
         <Toolbar>
           <Tooltip title="Manage" aria-label="manage">
@@ -63,7 +60,7 @@ let AboutHeaderBar = (props) => {
           </Tooltip>
           <Typography variant="h6" className="header_bar_a1">
             <i className="fas fa-user-friends header_bar_a2"></i>
-            About {" "+counter}
+            Videos {" "+counter}
           </Typography>
 
           {auth && (
@@ -107,6 +104,6 @@ let AboutHeaderBar = (props) => {
   )
 }
 const mapSTP = (store) => {
-  return { about: store.aboutInfo}
+  return { video: store.videoReducer}
 }
-export default connect(mapSTP)(AboutHeaderBar);
+export default connect(mapSTP)(VideoHeader);

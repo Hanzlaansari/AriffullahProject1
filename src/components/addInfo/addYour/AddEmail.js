@@ -3,14 +3,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
+import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import NativeSelect from "@material-ui/core/NativeSelect";
-import Grid from "@material-ui/core/Grid";
 import "./addYourStyle.css";
-import {connect} from "react-redux";
-import {relationStatus} from '../../actions/action'
+import FormHelperText from "@material-ui/core/FormHelperText";
+import Grid from "@material-ui/core/Grid";
+import {connect} from "react-redux"
+import {addEmail} from '../../actions/action'
+
 const useStyles = makeStyles(theme => ({
 	modal: {
 		display: "flex",
@@ -39,42 +40,37 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-
-function RelationStatus(props) {
+function AddEmail(props) {
+	
 	const classes = useStyles();
+	const [email, setEmail] = React.useState("");
 	const [error, setError] = useState(false);
-	const [state, setState] = React.useState({
-		relation: "Single",
-		// name: "hai"
-	});
 	
 	let save = () => {
-		
-		if (state.relation) {
-			props.dispatch(relationStatus(state.relation))
-			setState({relation:"Single"})
+		if(email){
+			props.dispatch(addEmail(email))
+			setEmail("");
 			props.close();
-		} else setError(true);
+		}
+		 else
+		  setError(true);
 	};
 	let closeError = () => {
 		setError(false);
 	};
-	const handleRelationship = name => event => {
-		setState({
-			...state,
-			[name]: event.target.value
-		});
+	const handleEmail = event => {
+		setEmail(event.target.value);
+		// console.log(event.target.value);
 		closeError();
 	};
+
 	return (
 		<div className="about-yourself-main">
-			
 			<Modal
 				aria-labelledby="transition-modal-title"
 				aria-describedby="transition-modal-description"
 				className={"custom-modal " + classes.modal}
 				open={props.openState}
-				// onClose={closeModal}
 				closeAfterTransition
 				BackdropComponent={Backdrop}
 				BackdropProps={{
@@ -85,35 +81,32 @@ function RelationStatus(props) {
 					<div className={"about-yourself "+classes.paper}>
 						<div className={classes.root1}>
 							<Grid container spacing={0}>
-								<Grid item xs={12} md={12} lg={12} xl={12} className="about-modal-main">
+								<Grid item xs={12} md={12} lg={12} xl={5} className="about-modal-main">
 									
 									<FormControl className="input-control" fullWidth>
-										<InputLabel htmlFor="uncontrolled-native">
-											Relationship Status
-                      </InputLabel>
-										<NativeSelect
-											onChange={handleRelationship("relation")}
-											defaultValue={"Single"}
-											inputProps={{
-												name: "relation",
-												id: "uncontrolled-native"
-											}}
-										>
-											<option value="" />
-											<option value="Single">Single</option>
-											<option value="In a relation ship">
-												In a relation ship
-                        </option>
-											<option value="Engaged">Engaged</option>
-											<option value="Married">Married</option>
-											<option value="Married">Married</option>
-											<option value="Its Complicated">Its Complicated</option>
-											<option value="Separated">Separated</option>
-											<option value="Divorced">Divorced</option>
-											<option value="Widowed">Widowed</option>
-										</NativeSelect>
-									</FormControl>
-									
+										<TextField
+											type="email"
+											defaultValue={
+												props.edit? props.about[4].value:""
+										}
+											onChange={handleEmail}
+											id="standard-basic"
+											placeholder="email"
+											label="Email"
+										/>
+										{error ? (
+											<FormHelperText
+												style={{ color: "red" }}
+												id="component-helper-text"
+											>
+												Please fill the field
+                        </FormHelperText>
+										) : (
+												""
+											)}
+									</FormControl >
+								
+									<br/>
 									<Button
 										onClick={save}
 										className="addworkplace_submit"
@@ -122,14 +115,12 @@ function RelationStatus(props) {
 									>
 										Save
                     </Button>
-									<Button onClick={()=>{props.close(); closeError();}} variant="contained">
+									<Button onClick={()=>{props.close(); setError(false)}} variant="contained">
 										Cancel
                     </Button>
 								</Grid>
 							</Grid>
-
 						</div>
-
 					</div>
 				</Fade>
 			</Modal>
@@ -139,4 +130,4 @@ function RelationStatus(props) {
 const mapStateToProps=(store)=>{
 	return {about:store.aboutInfo}
 }
-export default connect(mapStateToProps)(RelationStatus);
+export default connect(mapStateToProps)(AddEmail);

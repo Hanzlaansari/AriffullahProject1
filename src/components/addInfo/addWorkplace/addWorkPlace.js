@@ -82,7 +82,13 @@ function AddWorkPlace(props) {
                         <h2 id="transition-modal-title">Add Your WorkPlace</h2>
                         <FormControl className={classes.formControl}>
 
-                            <TextField onChange={handleChange} id="standard-basic" label="Your Workplace" />
+                            <TextField onChange={handleChange} 
+
+                            id="standard-basic" 
+                            defaultValue={
+                                props.about[0].data? props.about[0].value:""
+                            }
+                            label="Your Workplace" />
                             {error ?
                             <FormHelperText style={{color:'red'}} id="component-helper-text">Please Enter the workplace</FormHelperText>
                             :""
@@ -92,7 +98,7 @@ function AddWorkPlace(props) {
                         <Button onClick={save} className="addworkplace_submit" variant="contained" color="primary">
                            Add 
                          </Button>  
-                         <Button onClick={()=>{props.close(); setError(false)}} variant="contained">Cancel</Button>
+                         <Button onClick={()=>{props.close(); setError(false); }} variant="contained">Cancel</Button>
                         </div>
                     </div>
                 </Fade>
@@ -106,6 +112,6 @@ function AddWorkPlace(props) {
 }
 
 const mapStateToProps=(store)=>{
-    return {store:store}
+    return {about:store.aboutInfo}
 }
 export default connect(mapStateToProps)(AddWorkPlace)

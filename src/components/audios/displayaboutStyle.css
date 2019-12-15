@@ -1,9 +1,9 @@
-.display-about{
+.display-friends{
     max-width: 920px;
     margin: 0 auto;
     padding: 30px 0 0 0;
 }
-.display-about .col1{
+.display-friends .col1{
 float: left;
 position: relative;
 /* max-width: 300px; */
@@ -12,7 +12,7 @@ min-width: 176px;
 padding: 0;
 }
 
-.display-about .about-card{
+.display-friends .about-card{
     border:1px solid gray;
     box-shadow:0px 0px 3px 2px #888888;;
     border-radius: 10px;
@@ -22,7 +22,7 @@ padding: 0;
     /* padding: 80px 0 80px 0; */
     
 }
-.display-about .about-card .add-div{
+.display-friends .about-card .add-div{
     width: 100%;
     cursor: pointer;
     height: 70px;
@@ -37,9 +37,9 @@ padding: 0;
     border: 2.3px dashed teal;
 }
 
-.about-card .about_heading_p111{
+.about-card .about_heading_p1{
     color: blue;
-    font-size: 18px;
+    font-size: 14pt;
     padding: 0 10px 0 14px;
     width: 60%;
     height: 50px;
@@ -50,7 +50,7 @@ padding: 0;
 .about-card .about_heading_p1.d3lp{
     top: 35px;
 }
-.display-about .friend-card-img{
+.display-friends .friend-card-img{
     width: 90px;
     height: 90px;
     border-radius:100% ;
@@ -59,13 +59,13 @@ padding: 0;
     border: 2px dashed teal;
     padding: 3px;
 }
-.display-about .friend-card-img img{
+.display-friends .friend-card-img img{
     width: 100%;
     height: 100%;
     border-radius:100% ;
 
 }
-.display-about .friend-Name{
+.display-friends .friend-Name{
     text-align: center;
     padding: 0 15px;
     width: calc(90%);
@@ -75,19 +75,19 @@ padding: 0;
     height: 30px;
     margin: 0;
 }
-.display-about .mutual-f{
+.display-friends .mutual-f{
     margin:0;
     letter-spacing: -0.5px;
     text-align: center;
     font-size: 15px;
 }
-.display-about .unf-btn{
+.display-friends .unf-btn{
     /* width: 70px; */
     display: block;
     margin: 15px auto  25px auto;
     text-transform: capitalize;
 }
-.display-about .unf-btn i{
+.display-friends .unf-btn i{
     margin: 0 5px 0 0;
 }
 .about-card .about_card_a1{
@@ -143,14 +143,13 @@ right:10px;
 bottom:12px
 
 }
-.col1 .edit-btn-abs{
+.manage-btn-videos-a1{
     position: absolute;
-    width: 40px;
+    width: 15px;
     height: 40px;
-    left:10px;
-    bottom:12px
-    
-    }
+    left: 10px;
+    bottom: 16px;
+}
 .display-ul{
     list-style: none;
     padding: 10px 0;
@@ -181,10 +180,7 @@ bottom:12px
 .icon-button-prvc{
     padding: 8px !important;
 }
-.icon-button-edit{
-    padding: 8px !important;
-}
-.display-about .p-i{
+.display-friends .p-i{
     font-size: 18px;
     width: 22px;
     height: 22px;
@@ -195,7 +191,7 @@ bottom:12px
     }
 }
 @media (max-width:767px){
-    .display-about .col1{
+    .display-friends .col1{
         float: left;
         position: relative;
         max-width: 320px;

@@ -1,0 +1,15 @@
+.video-header{
+    max-width: 920px;
+    margin: 0 auto;
+    margin-bottom: 40px;
+    }
+    .header_bar_a1{
+        flex-grow: inherit !important;
+        margin: 0 auto !important;
+    }
+    .header_bar_a2{
+        margin-right: 10px;
+    }
+    .display-friends{
+        padding: 0 !important;
+    }

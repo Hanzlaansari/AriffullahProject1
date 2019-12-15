@@ -3,13 +3,6 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { makeStyles } from '@material-ui/core/styles';
 
-// ISO 3166-1 alpha-2
-// ⚠️ No support for IE 11
-// function countryToFlag(isoCode) {
-//   return typeof String.fromCodePoint !== 'undefined'
-//     ? isoCode.toUpperCase().replace(/./g, char => String.fromCodePoint(char.charCodeAt(0) + 127397))
-//     : isoCode;
-// }
 
 const useStyles = makeStyles({
   option: {
@@ -27,7 +20,7 @@ export default function Country(props) {
 
   return (
     <Autocomplete
-      id="country-select-demo"
+      id="country-select"
       style={{ width: 230 }}
       options={countries}
       classes={{
@@ -44,16 +37,13 @@ export default function Country(props) {
       )}
       renderInput={params => (
         <TextField
-        // onChange={e=>console.log(inputProps)}
           {...params}
           
           label="Choose a country"
-          // variant="outlined"
           fullWidth
           onFocus={props.setCountry(params.inputProps.value)}
           inputProps={{
             ...params.inputProps,
-            // autoComplete // disable autocomplete and autofill
           }}
         />
       )}

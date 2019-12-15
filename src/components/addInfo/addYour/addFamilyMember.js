@@ -75,7 +75,6 @@ function AddFamilyMember(props) {
 	};
 	return (
 		<div className="about-yourself-main">
-			{console.log(state.relation + "  " + name)}
 			<Modal
 				aria-labelledby="transition-modal-title"
 				aria-describedby="transition-modal-description"
@@ -161,6 +160,6 @@ function AddFamilyMember(props) {
 }
 
 const mapStateToProps=(store)=>{
-	return {about:store}
+	return {about:store.aboutInfo}
 }
 export default connect(mapStateToProps)(AddFamilyMember);

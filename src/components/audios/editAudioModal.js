@@ -6,10 +6,10 @@ import Fade from "@material-ui/core/Fade";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
-import "./addSchoolStyle.css";
+import "./videosStyle.css";
 import FormHelperText from "@material-ui/core/FormHelperText";
-import {connect} from 'react-redux'
-import {school} from '../../actions/action'
+import { connect } from 'react-redux'
+import {editVideo} from '../actions/action'
 const useStyles = makeStyles(theme => ({
     modal: {
         display: "flex",
@@ -23,6 +23,10 @@ const useStyles = makeStyles(theme => ({
         padding: theme.spacing(2, 4, 3)
     },
     root: {
+        display: 'flex',
+        '& > * + *': {
+            marginLeft: theme.spacing(2),
+        },
         "& > *": {
             margin: theme.spacing(1),
             width: 200
@@ -34,17 +38,24 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
- function AddSchool(props) {
+function EditCaption(props) {
     const classes = useStyles();
     const [name, setName] = React.useState("");
     const [error, setError] = useState(false);
-   let save = () => {
-       
-        if (name) {
+  
+   
+    let save = () => {
+
+        if (name ) {
+            let id=props.id
+            props.dispatch(editVideo({  caption: name,id: id}));
             // after dispatch
-            props.dispatch(school(name))
+
             setName("");
-            props.close();
+          
+            setError(false);
+           
+            props.closeeditmodall();
         } else setError(true);
     };
     let closeError = () => {
@@ -52,46 +63,52 @@ const useStyles = makeStyles(theme => ({
     };
     const handleChange = event => {
         setName(event.target.value);
-        console.log(event.target.value);
         closeError();
     };
+ 
+    
     return (
         <div>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
                 className={classes.modal}
-                open={props.openState}
+                open={props.openeditmodall}
                 closeAfterTransition
                 BackdropComponent={Backdrop}
                 BackdropProps={{
                     timeout: 500
                 }}
             >
-                <Fade in={props.openState}>
+                <Fade in={props.openeditmodall}>
                     <div className={"about-yourself " + classes.paper}>
-                        <h2 id="transition-modal-title">Add Your School</h2>
+                        <h2 style={{ marginBottom: '20px' }} id="transition-modal-title">Edit Your Caption</h2>
+                       
+
+                        
+
                         <FormControl className="input-control" fullWidth>
                             <TextField
                                 onChange={handleChange}
-                                defaultValue={
-                                    props.about[2].data? props.about[2].value:""
-                                }
                                 id="standard-basic"
-                                label="Your School"
+                                label="Your Caption"
+                                defaultValue={props.videoData[props.indexx].caption}
                             />
                             {error ? (
                                 <FormHelperText
                                     style={{ color: "red" }}
                                     id="component-helper-text"
                                 >
-                                    Please Enter the School
-                </FormHelperText>
+                                    Please Enter a Caption
+</FormHelperText>
                             ) : (
                                     ""
                                 )}
                         </FormControl>
+
+
                         <div>
+
                             <Button
                                 onClick={save}
                                 className="addworkplace_submit"
@@ -99,8 +116,9 @@ const useStyles = makeStyles(theme => ({
                                 color="primary"
                             >
                                 Add
-              </Button>
-                            <Button onClick={()=>{props.close(); setError(false); }} variant="contained">
+          </Button>
+
+                            <Button onClick={() => { props.closeeditmodall(); setError(false) }} variant="contained">
                                 Cancel
               </Button>
                         </div>
@@ -110,7 +128,7 @@ const useStyles = makeStyles(theme => ({
         </div>
     );
 }
-const mapStateToProps=(store)=>{
-    return {about:store.aboutInfo}
-  }
-  export default connect(mapStateToProps)(AddSchool);
+const mapStateToProps = (store) => {
+    return { videoData: store.videoReducer }
+}
+export default connect(mapStateToProps)(EditCaption);

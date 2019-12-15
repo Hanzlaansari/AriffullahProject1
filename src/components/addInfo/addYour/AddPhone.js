@@ -6,20 +6,11 @@ import Fade from "@material-ui/core/Fade";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
-import PropTypes from "prop-types";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
 import "./addYourStyle.css";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Grid from "@material-ui/core/Grid";
-import DateFnsUtils from "@date-io/date-fns";
 import {connect} from "react-redux"
-import {basicInfo} from '../../actions/action'
-import {
-	MuiPickersUtilsProvider,
-	KeyboardDatePicker
-} from "@material-ui/pickers";
-import SelectLanguage from "./language";
+import {addPhone} from '../../actions/action'
 const useStyles = makeStyles(theme => ({
 	modal: {
 		display: "flex",
@@ -48,51 +39,16 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-function TabPanel(props) {
-	const { children, value, index, ...other } = props;
-
-	return (
-		<Typography
-			component="div"
-			role="tabpanel"
-			hidden={value !== index}
-			id={`simple-tabpanel-${index}`}
-			aria-labelledby={`simple-tab-${index}`}
-			{...other}
-		>
-			<Box p={3}>{children}</Box>
-		</Typography>
-	);
-}
-
-TabPanel.propTypes = {
-	children: PropTypes.node,
-	index: PropTypes.any.isRequired,
-	value: PropTypes.any.isRequired
-};
-
-function BasicInfo(props) {
+function AddPhone(props) {
 	
 	const classes = useStyles();
-	const [email, setEmail] = React.useState("");
 	const [phone, setPhone] = React.useState("");
-	const [languages, setLanguages] = React.useState([]);
 	const [error, setError] = useState(false);
-	const [dateState, setDateState]=useState(false)	
-	const [selectedDate, setSelectedDate] = useState(
-		new Date("2014-08-18T21:11:54")
-	);
-	const handleDateChange = date => {
-		setSelectedDate(date);
-		closeError();
-		setDateState(true);
-	};
-
+	
 	let save = () => {
-		if(email && phone && languages.length!==0 && dateState){
-			const object= { phone, email, languages, dateOfBirth:selectedDate };
-			props.dispatch(basicInfo(object))
-			setDateState(false);
+		if(phone){
+			props.dispatch(addPhone(phone))
+			setPhone("");
 			props.close();
 			
 		}
@@ -102,16 +58,8 @@ function BasicInfo(props) {
 	let closeError = () => {
 		setError(false);
 	};
-	const handleLanguages=(value)=>{
-		setLanguages(value)
-	}
 	const handlePhone = event => {
 		setPhone(event.target.value);
-		// console.log(event.target.value);
-		closeError();
-	};
-	const handleEmail = event => {
-		setEmail(event.target.value);
 		// console.log(event.target.value);
 		closeError();
 	};
@@ -139,65 +87,24 @@ function BasicInfo(props) {
 											type="number"
 											onChange={handlePhone}
 											id="standard-basic"
+											defaultValue={
+												props.about[3].data? props.about[3].value:""
+										}
 											placeholder="Mobile phone"
 											label="Mobile phone"
 										/>
-										{/* {error ? (
+										{error ? (
 											<FormHelperText
 												style={{ color: "red" }}
 												id="component-helper-text"
 											>
 												Please fill the field
-                        </FormHelperText>
-										) : (
-												""
-											)} */}
-									</FormControl>
-
-									<FormControl className="input-control" fullWidth>
-										<TextField
-											type="email"
-											onChange={handleEmail}
-											id="standard-basic"
-											placeholder="email"
-											label="Email"
-										/>
-										{/* {error ? (
-											<FormHelperText
-												style={{ color: "red" }}
-												id="component-helper-text"
-											>
-												Please fill the field
-                        </FormHelperText>
-										) : (
-												""
-											)} */}
-									</FormControl >
-								
-									<SelectLanguage setLanguages={handleLanguages} classes={"input-control "} />
-									<MuiPickersUtilsProvider utils={DateFnsUtils}>
-										<KeyboardDatePicker
-											margin="normal"
-											id="date-picker-dialog"
-											label="Date of Birth"
-											format="MM/dd/yyyy"
-											value={selectedDate}
-											onChange={handleDateChange}
-											KeyboardButtonProps={{
-												"aria-label": "change date"
-											}}
-										/>
-									</MuiPickersUtilsProvider>
-									{error ? (
-											<FormHelperText
-												style={{ color: "red" }}
-												id="component-helper-text"
-											>
-												Please fill All field
                         </FormHelperText>
 										) : (
 												""
 											)}
+									</FormControl>
+
 									<br/>
 									<Button
 										onClick={save}
@@ -220,6 +127,6 @@ function BasicInfo(props) {
 	);
 }
 const mapStateToProps=(store)=>{
-	return {about:store}
+	return {about:store.aboutInfo}
 }
-export default connect(mapStateToProps)(BasicInfo);
+export default connect(mapStateToProps)(AddPhone);

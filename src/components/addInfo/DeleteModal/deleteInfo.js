@@ -6,10 +6,10 @@ import Fade from '@material-ui/core/Fade';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
-import './addCollegeStyle.css';
+import './deleteInfo.css';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { connect } from 'react-redux';
-import {college} from '../../actions/action'
+import {delInfo} from '../../actions/action'
 const useStyles = makeStyles(theme => ({
     modal: {
         display: 'flex',
@@ -35,29 +35,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-function AddCollege(props) {
+function DeleteInfo(props) {
     const classes = useStyles();
-    const [name, setName] = React.useState("");
-    const [error, setError] = useState(false);
-    let save = () => {
-        
-        if (name) {
-          props.dispatch(college(name))
-          setName("");
-          props.close();
-        }
-        else
-            setError(true);
+    let del = () => {
+        props.dispatch(delInfo(props.delIndex))
+        props.close()
+        console.log("hi")
 
     }
-    let closeError = () => {
-        setError(false);
-    }
-    const handleChange = event => {
-        setName(event.target.value);
-        console.log(event.target.value)
-        closeError();
-    };
     return (
 
         <div>
@@ -74,25 +59,12 @@ function AddCollege(props) {
             >
                 <Fade in={props.openState}>
                     <div className={"about-yourself " + classes.paper}>
-                        <h2 id="transition-modal-title">Add Your College</h2>
-                        <FormControl className="input-control" fullWidth>
-
-                            <TextField onChange={handleChange}
-                            id="standard-basic"
-                            defaultValue={
-                                props.about[1].data? props.about[1].value:""
-                            }
-                            label="Your College" />
-                            {error ?
-                                <FormHelperText style={{ color: 'red' }} id="component-helper-text">Please Enter the College</FormHelperText>
-                                : ""
-                            }
-                        </FormControl>
+                    <h2 style={{ marginBottom: '20px' }} id="transition-modal-title">Are you sure you want to delete</h2>
                         <div>
-                            <Button onClick={save} className="addworkplace_submit" variant="contained" color="primary">
-                                Add
+                            <Button onClick={del} className="deleteInfo" variant="contained" color="primary">
+                                Delete
                          </Button>
-                            <Button onClick={()=>{props.close(); setError(false);}} variant="contained">Cancel</Button>
+                            <Button onClick={()=>{props.close();}}   variant="contained">Cancel</Button>
                         </div>
                     </div>
                 </Fade>
@@ -102,6 +74,6 @@ function AddCollege(props) {
     )
 }
 const mapStateToProps = (store) => {
-    return {about:store.aboutInfo}
+    return { about: store }
 }
-export default connect(mapStateToProps)(AddCollege);
+export default connect(mapStateToProps)(DeleteInfo);
